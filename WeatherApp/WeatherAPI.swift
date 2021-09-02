@@ -7,12 +7,17 @@
 
 import Foundation
 import CoreLocation
+import UIKit
 
 protocol WeatherResponseDelegate {
+    /// Called when the api receives a weather response
     func didReturnWeather(with response: WeatherResponse)
+    /// Called when the api receieves a forecast response
     func didReturnForecast(with response: ForecastResponse)
+    /// Called when the api receives a search response
     func didReturnSearchResults(with response: SearchResults)
     
+    /// Called when an error occurs decoding the data, or when nothing comes back
     func errorDidOccur(_ error: Error)
 }
 
@@ -34,7 +39,7 @@ class API {
     
     private func handleCurrentWeather(response: WeatherResponse?, error: Error?) {
         guard error == nil else { return delegate?.errorDidOccur(error!) ?? () }
-        delegate?.didReturnWeather(with: response!)
+        DispatchQueue.main.async { self.delegate?.didReturnWeather(with: response!) }
     }
     /**
     Retrieve the current weather for a specified zip code
@@ -82,7 +87,9 @@ class API {
     
     private func handleForecast(response: ForecastResponse?, error: Error?) {
         guard error == nil else { return delegate?.errorDidOccur(error!) ?? () }
-        delegate?.didReturnForecast(with: response!)
+        DispatchQueue.main.async {
+            self.delegate?.didReturnForecast(with: response!)
+        }
     }
     /**
      Retrieve forecast for a specified zip code
@@ -142,7 +149,9 @@ class API {
     
     private func handleSearch(response: SearchResults?, error: Error?) {
         guard error == nil else { return delegate?.errorDidOccur(error!) ?? () }
-        delegate?.didReturnSearchResults(with: response!)
+        DispatchQueue.main.async {
+            self.delegate?.didReturnSearchResults(with: response!)
+        }
     }
     /**
      Search for a location by zip, coordinates, or city/state
@@ -166,7 +175,11 @@ class API {
                     let object = try self.decoder.decode(T.self, from: data)
                     callback(object, nil)
                 } catch {
-                    callback(nil, error)
+                    if let apiError = try? self.decoder.decode(WeatherAPIError.self, from: data) {
+                        callback(nil, apiError)
+                    } else {
+                        callback(nil, error)
+                    }
                 }
             } else if let response = response as? HTTPURLResponse {
                 if 200..<300 ~= response.statusCode {
@@ -225,10 +238,8 @@ struct CurrentWeather: Decodable {
     let gust_mph: Float
     let gust_kph: Float
     
-    struct Condition: Decodable {
-        let text: String
-        let icon: String
-        let code: Int
+    var conditionImage: UIImage? {
+        return condition.icon(is_day)
     }
 }
 struct WeatherResponse: Decodable {
@@ -268,8 +279,12 @@ struct ForecastResponse: Decodable {
                 let daily_chance_of_rain: Int
                 let daily_will_it_snow: Int
                 let daily_chance_of_snow: Int
-                let condition: CurrentWeather.Condition
+                let condition: Condition
                 let uv: Float
+                
+                var conditionImage: UIImage? {
+                    return condition.icon(1)
+                }
             }
             
             struct Astro: Decodable {
@@ -287,7 +302,7 @@ struct ForecastResponse: Decodable {
                 let temp_c: Float
                 let temp_f: Float
                 let is_day: Int
-                let condition: CurrentWeather.Condition
+                let condition: Condition
                 let wind_mph: Float
                 let wind_kph: Float
                 let wind_degree: Int
@@ -315,6 +330,10 @@ struct ForecastResponse: Decodable {
                 let gust_mph: Float
                 let gust_kph: Float
                 let uv: Float
+                
+                var conditionImage: UIImage? {
+                    return condition.icon(is_day)
+                }
             }
         }
     }
@@ -334,3 +353,267 @@ struct SearchCompletion: Decodable {
         return CLLocationCoordinate2D(latitude: lat, longitude: lon)
     }
 }
+
+struct WeatherAPIError: Error, Decodable {
+    let code: Int
+    let message: String
+}
+
+enum Condition: Int, Decodable, CaseIterable {
+    enum Keys: String, CodingKey {
+        case text, icon, code
+    }
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: Keys.self)
+        
+        if let code = try? container.decode(Int.self, forKey: .code) {
+            self = Self(rawValue: code) ?? ._1000
+        } else {
+            throw DecodingError.dataCorruptedError(forKey: .code, in: container, debugDescription: "Missing code for condition")
+        }
+    }
+    
+    func image(isDay: Int) -> UIImage? {
+        let name = "\(isDay == 1 ? "day" : "night")_\(self.icon)"
+        return UIImage(named: name)
+    }
+    
+    case _1000 = 1000
+    case _1003 = 1003
+    case _1006 = 1006
+    case _1009 = 1009
+    case _1030 = 1030
+    case _1063 = 1063
+    case _1066 = 1066
+    case _1069 = 1069
+    case _1072 = 1072
+    case _1087 = 1087
+    case _1114 = 1114
+    case _1117 = 1117
+    case _1135 = 1135
+    case _1147 = 1147
+    case _1150 = 1150
+    case _1153 = 1153
+    case _1168 = 1168
+    case _1171 = 1171
+    case _1180 = 1180
+    case _1183 = 1183
+    case _1186 = 1186
+    case _1189 = 1189
+    case _1192 = 1192
+    case _1195 = 1195
+    case _1198 = 1198
+    case _1201 = 1201
+    case _1204 = 1204
+    case _1207 = 1207
+    case _1210 = 1210
+    case _1213 = 1213
+    case _1216 = 1216
+    case _1219 = 1219
+    case _1222 = 1222
+    case _1225 = 1225
+    case _1237 = 1237
+    case _1240 = 1240
+    case _1243 = 1243
+    case _1246 = 1246
+    case _1249 = 1249
+    case _1252 = 1252
+    case _1255 = 1255
+    case _1258 = 1258
+    case _1261 = 1261
+    case _1264 = 1264
+    case _1273 = 1273
+    case _1276 = 1276
+    case _1279 = 1279
+    case _1282 = 1282
+    
+    var day: String {
+        switch self {
+        case ._1000: return "Sunny"
+        case ._1003: return "Partly Cloudy"
+        case ._1006: return "Cloudy"
+        case ._1009: return "Overcast"
+        case ._1030: return "Mist"
+        case ._1063: return "Patchy rain nearby"
+        case ._1066: return "Patchy snow nearby"
+        case ._1069: return "Patchy sleet nearby"
+        case ._1072: return "Patchy freezing drizzle nearby"
+        case ._1087: return "Thundery outbreaks in nearby"
+        case ._1114: return "Blowing snow"
+        case ._1117: return "Blizzard"
+        case ._1135: return "Fog"
+        case ._1147: return "Freezing fog"
+        case ._1150: return "Patchy light drizzle"
+        case ._1153: return "Light drizzle"
+        case ._1168: return "Freezing drizzle"
+        case ._1171: return "Heavy freezing drizzle"
+        case ._1180: return "Patchy light rain"
+        case ._1183: return "Light rain"
+        case ._1186: return "Moderate rain at times"
+        case ._1189: return "Moderate rain"
+        case ._1192: return "Heavy rain at times"
+        case ._1195: return "Heavy rain"
+        case ._1198: return "Light freezing rain"
+        case ._1201: return "Moderate or heavy freezing rain"
+        case ._1204: return "Light sleet"
+        case ._1207: return "Moderate or heavy sleet"
+        case ._1210: return "Patchy light snow"
+        case ._1213: return "Light snow"
+        case ._1216: return "Patchy moderate snow"
+        case ._1219: return "Moderate snow"
+        case ._1222: return "Patchy heavy snow"
+        case ._1225: return "Heavy snow"
+        case ._1237: return "Ice pellets"
+        case ._1240: return "Light rain shower"
+        case ._1243: return "Moderate or heavy rain shower"
+        case ._1246: return "Torrential rain shower"
+        case ._1249: return "Light sleet showers"
+        case ._1252: return "Moderate or heavy sleet showers"
+        case ._1255: return "Light snow showers"
+        case ._1258: return "Moderate or heavy snow showers"
+        case ._1261: return "Light showers of ice pellets"
+        case ._1264: return "Moderate or heavy showers of ice pellets"
+        case ._1273: return "Patchy light rain in area with thunder"
+        case ._1276: return "Moderate or heavy rain in area with thunder"
+        case ._1279: return "Patchy light snow in area with thunder"
+        case ._1282: return "Moderate or heavy snow in area with thunder"
+        }
+    }
+    
+    var night: String {
+        switch self {
+        case ._1000: return "Clear"
+        case ._1003: return "Partly Cloudy"
+        case ._1006: return "Cloudy"
+        case ._1009: return "Overcast"
+        case ._1030: return "Mist"
+        case ._1063: return "Patchy rain nearby"
+        case ._1066: return "Patchy snow nearby"
+        case ._1069: return "Patchy sleet nearby"
+        case ._1072: return "Patchy freezing drizzle nearby"
+        case ._1087: return "Thundery outbreaks in nearby"
+        case ._1114: return "Blowing snow"
+        case ._1117: return "Blizzard"
+        case ._1135: return "Fog"
+        case ._1147: return "Freezing fog"
+        case ._1150: return "Patchy light drizzle"
+        case ._1153: return "Light drizzle"
+        case ._1168: return "Freezing drizzle"
+        case ._1171: return "Heavy freezing drizzle"
+        case ._1180: return "Patchy light rain"
+        case ._1183: return "Light rain"
+        case ._1186: return "Moderate rain at times"
+        case ._1189: return "Moderate rain"
+        case ._1192: return "Heavy rain at times"
+        case ._1195: return "Heavy rain"
+        case ._1198: return "Light freezing rain"
+        case ._1201: return "Moderate or heavy freezing rain"
+        case ._1204: return "Light sleet"
+        case ._1207: return "Moderate or heavy sleet"
+        case ._1210: return "Patchy light snow"
+        case ._1213: return "Light snow"
+        case ._1216: return "Patchy moderate snow"
+        case ._1219: return "Moderate snow"
+        case ._1222: return "Patchy heavy snow"
+        case ._1225: return "Heavy snow"
+        case ._1237: return "Ice pellets"
+        case ._1240: return "Light rain shower"
+        case ._1243: return "Moderate or heavy rain shower"
+        case ._1246: return "Torrential rain shower"
+        case ._1249: return "Light sleet showers"
+        case ._1252: return "Moderate or heavy sleet showers"
+        case ._1255: return "Light snow showers"
+        case ._1258: return "Moderate or heavy snow showers"
+        case ._1261: return "Light showers of ice pellets"
+        case ._1264: return "Moderate or heavy showers of ice pellets"
+        case ._1273: return "Patchy light rain in area with thunder"
+        case ._1276: return "Moderate or heavy rain in area with thunder"
+        case ._1279: return "Patchy light snow in area with thunder"
+        case ._1282: return "Moderate or heavy snow in area with thunder"
+        }
+    }
+    
+    func icon(_ isDay: Int) -> UIImage? {
+        switch self {
+        case ._1000: return isDay == 1 ? UIImage(systemName: "sun.max.fill") : UIImage(systemName: "moon.fill")
+        case ._1003: return isDay == 1 ? UIImage(systemName: "cloud.sun.fill") : UIImage(systemName: "cloud.moon.fill")
+        case ._1006: return isDay == 1 ? UIImage(systemName: "cloud.fill") : UIImage(systemName: "cloud.moon.fill")
+        case ._1009: return UIImage(systemName: "cloud.fill")
+        case ._1063: return isDay == 1 ? UIImage(systemName: "cloud.sun.rain.fill") : UIImage(systemName: "cloud.moon.rain.fill")
+        case ._1087: return isDay == 1 ? UIImage(systemName: "cloud.sun.bolt.fill") : UIImage(systemName: "cloud.moon.bolt.fill")
+        case ._1117: return UIImage(systemName: "wind.snow")
+        case ._1186: return isDay == 1 ? UIImage(systemName: "cloud.sun.rain.fill") : UIImage(systemName: "cloud.moon.rain.fill")
+            
+        case ._1030, ._1072, ._1153, ._1168, ._1171, ._1240:
+            return UIImage(systemName: "cloud.drizzle.fill")
+        case ._1066, ._1114, ._1210, ._1213, ._1216, ._1219, ._1222, ._1225, ._1237, ._1255, ._1258:
+            return UIImage(systemName: "cloud.snow.fill")
+        case ._1135, ._1147:
+            return UIImage(systemName: "cloud.fog.fill")
+        case ._1150, ._1180, ._1183, ._1189, ._1198:
+            return UIImage(systemName: "cloud.rain.fill")
+        case ._1192, ._1195, ._1201, ._1243, ._1246:
+            return UIImage(systemName: "cloud.heavyrain.fill")
+        case ._1069, ._1204, ._1207, ._1249, ._1252:
+            return UIImage(systemName: "cloud.sleet.fill")
+        case ._1261, ._1264:
+            return UIImage(systemName: "cloud.hail.fill")
+        case ._1273, ._1276, ._1279, ._1282:
+            return UIImage(systemName: "cloud.bolt.rain.fill")
+        }
+    }
+    
+    var icon: Int {
+        switch self {
+        case ._1000: return 113
+        case ._1003: return 116
+        case ._1006: return 119
+        case ._1009: return 122
+        case ._1030: return 143
+        case ._1063: return 176
+        case ._1066: return 179
+        case ._1069: return 182
+        case ._1072: return 185
+        case ._1087: return 200
+        case ._1114: return 227
+        case ._1117: return 230
+        case ._1135: return 248
+        case ._1147: return 260
+        case ._1150: return 263
+        case ._1153: return 266
+        case ._1168: return 281
+        case ._1171: return 284
+        case ._1180: return 293
+        case ._1183: return 296
+        case ._1186: return 299
+        case ._1189: return 302
+        case ._1192: return 305
+        case ._1195: return 308
+        case ._1198: return 311
+        case ._1201: return 314
+        case ._1204: return 317
+        case ._1207: return 320
+        case ._1210: return 323
+        case ._1213: return 326
+        case ._1216: return 329
+        case ._1219: return 332
+        case ._1222: return 335
+        case ._1225: return 338
+        case ._1237: return 350
+        case ._1240: return 353
+        case ._1243: return 356
+        case ._1246: return 359
+        case ._1249: return 362
+        case ._1252: return 365
+        case ._1255: return 368
+        case ._1258: return 371
+        case ._1261: return 374
+        case ._1264: return 377
+        case ._1273: return 386
+        case ._1276: return 389
+        case ._1279: return 392
+        case ._1282: return 395
+        }
+    }
+}
+

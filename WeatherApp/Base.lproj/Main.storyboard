@@ -17,43 +17,67 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="75° C" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTX-Rm-ri9">
-                                <rect key="frame" x="174" y="44" width="200" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="75° C" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTX-Rm-ri9">
+                                <rect key="frame" x="174" y="44" width="200" height="62.333333333333343"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="52"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="San Francisco, CA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hpo-Rr-rgy">
-                                <rect key="frame" x="16" y="202" width="358" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="San Francisco, CA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hpo-Rr-rgy">
+                                <rect key="frame" x="16" y="202" width="358" height="33.666666666666657"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="L: -215° C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="61X-jw-wM7">
-                                <rect key="frame" x="174" y="164" width="200" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="H: 109° C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="98e-t2-Bcb">
-                                <rect key="frame" x="174" y="126" width="200" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-gK-Z7f">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ibO-XF-3fN">
+                                <rect key="frame" x="174" y="126" width="109.66666666666669" height="68"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="H: 109° C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="98e-t2-Bcb">
+                                        <rect key="frame" x="0.0" y="0.0" width="109.66666666666667" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="L: -215° C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="61X-jw-wM7">
+                                        <rect key="frame" x="0.0" y="38" width="109.66666666666667" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-gK-Z7f">
                                 <rect key="frame" x="16" y="44" width="150" height="150"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <imageReference key="image" image="cloud.bolt.rain.fill"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="Bos-F6-WlL"/>
+                                    <constraint firstAttribute="height" constant="155" id="IT9-1T-kry"/>
+                                </constraints>
+                                <imageReference key="image" image="cloud.fill" catalog="system"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="rbK-gK-Z7f" secondAttribute="top" constant="2" id="1t2-6f-FXH"/>
+                            <constraint firstItem="Hpo-Rr-rgy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="26a-oV-jrS"/>
+                            <constraint firstItem="Hpo-Rr-rgy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="158" id="3Cp-Cr-VLf"/>
+                            <constraint firstItem="ibO-XF-3fN" firstAttribute="leading" secondItem="rbK-gK-Z7f" secondAttribute="trailing" constant="8" symbolic="YES" id="4fg-Jw-1a5"/>
+                            <constraint firstItem="ibO-XF-3fN" firstAttribute="top" secondItem="xTX-Rm-ri9" secondAttribute="bottom" constant="19.666666666666657" id="735-XW-9SU"/>
+                            <constraint firstItem="xTX-Rm-ri9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="MMf-MO-pJJ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xTX-Rm-ri9" secondAttribute="trailing" constant="16" id="PJS-Px-TYu"/>
+                            <constraint firstItem="xTX-Rm-ri9" firstAttribute="leading" secondItem="rbK-gK-Z7f" secondAttribute="trailing" constant="8" symbolic="YES" id="Upr-mZ-mZl"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Hpo-Rr-rgy" secondAttribute="trailing" constant="16" id="fXD-pP-DD8"/>
+                            <constraint firstItem="rbK-gK-Z7f" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="r4I-mb-ZI3"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ibO-XF-3fN" secondAttribute="trailing" constant="106.33333333333331" id="uf7-FQ-SHe"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="conditionIcon" destination="rbK-gK-Z7f" id="h9v-1o-pIe"/>
+                        <outlet property="highLabel" destination="98e-t2-Bcb" id="b4I-Mv-UAU"/>
+                        <outlet property="location" destination="Hpo-Rr-rgy" id="ire-n0-VX3"/>
+                        <outlet property="lowLabel" destination="61X-jw-wM7" id="Fqx-eg-eqN"/>
+                        <outlet property="tempLabel" destination="xTX-Rm-ri9" id="UF2-P3-V4m"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -61,7 +85,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cloud.bolt.rain.fill" width="128" height="128"/>
+        <image name="cloud.fill" catalog="system" width="128" height="88"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

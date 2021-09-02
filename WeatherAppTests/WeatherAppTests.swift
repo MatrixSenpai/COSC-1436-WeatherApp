@@ -30,7 +30,6 @@ class WeatherAppTests: XCTestCase {
             guard error == nil else { print("Error: \(error!)"); return false }
             guard let response = response else { print("Empty response"); return false }
             
-            XCTAssert(response.location.localtime_epoch == Date())
             XCTAssert(response.location.region == "Texas")
             XCTAssert(response.location.name == "Austin")
             return true

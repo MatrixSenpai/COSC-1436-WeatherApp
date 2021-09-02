@@ -1,4 +1,6 @@
-
+**/*.gpx
 WeatherApp.xcodeproj/project.xcworkspace/xcuserdata/
 
 WeatherApp.xcodeproj/xcuserdata/
+
+WeatherApp.xcodeproj/xcshareddata/xcschemes/
