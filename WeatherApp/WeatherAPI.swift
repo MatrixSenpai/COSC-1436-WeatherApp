@@ -36,6 +36,12 @@ class API {
         guard error == nil else { return delegate?.errorDidOccur(error!) ?? () }
         delegate?.didReturnWeather(with: response!)
     }
+    /**
+    Retrieve the current weather for a specified zip code
+
+     - Parameters:
+        - zip: The zip code to search for
+     */
     func currentWeatherFor(zip: String) {
         var components = URLComponents(url: baseURL.appendingPathComponent("/current.json"), resolvingAgainstBaseURL: false)
         components?.queryItems = [
@@ -44,6 +50,13 @@ class API {
         ]
         fetchWeather(URLRequest(url: components!.url!), callback: handleCurrentWeather(response:error:))
     }
+    /**
+     Retrieve current weather for a specified city and state
+     
+     - Parameters:
+        - city: The city to search for
+        - state: The state to search for
+     */
     func currentWeatherFor(city: String, state: String) {
         var components = URLComponents(url: baseURL.appendingPathComponent("/current.json"), resolvingAgainstBaseURL: false)
         components?.queryItems = [
@@ -52,6 +65,12 @@ class API {
         ]
         fetchWeather(URLRequest(url: components!.url!), callback: handleCurrentWeather(response:error:))
     }
+    /**
+     Retrieve current weather for a specified location (generally meant to be used with current location)
+     
+     - Parameters:
+        - location: The coordinates to search for
+     */
     func currentWeatherFor(location: CLLocationCoordinate2D) {
         var components = URLComponents(url: baseURL.appendingPathComponent("/current.json"), resolvingAgainstBaseURL: false)
         components?.queryItems = [
@@ -65,6 +84,13 @@ class API {
         guard error == nil else { return delegate?.errorDidOccur(error!) ?? () }
         delegate?.didReturnForecast(with: response!)
     }
+    /**
+     Retrieve forecast for a specified zip code
+     
+     - Parameters:
+        - zip: The zip to search for
+        - days: An (optional) number of days to retrieve for. Defaults to 1
+     */
     func forecastFor(zip: String, days: Int = 1) {
         var components = URLComponents(url: baseURL.appendingPathComponent("/forecast.json"), resolvingAgainstBaseURL: false)
         components?.queryItems = [
@@ -76,6 +102,14 @@ class API {
         ]
         fetchWeather(URLRequest(url: components!.url!), callback: handleForecast(response:error:))
     }
+    /**
+     Retrieve forecast for specified city and state
+  
+     - Parameters:
+        - city: The city to search for
+        - state: The state to search for
+        - days: An (optional) number of days to retrieve for. Defaults to 1
+     */
     func forecastFor(city: String, state: String, days: Int = 1) {
         var components = URLComponents(url: baseURL.appendingPathComponent("/forecast.json"), resolvingAgainstBaseURL: false)
         components?.queryItems = [
@@ -87,6 +121,13 @@ class API {
         ]
         fetchWeather(URLRequest(url: components!.url!), callback: handleForecast(response:error:))
     }
+    /**
+     Retrieve forecast for specified coordinates (generally meant to be used with current location)
+     
+     - Parameters:
+        - location: The coordinates to search for
+        - days: An (optional) number of days to retrieve for. Defaults to 1
+     */
     func forecastFor(location: CLLocationCoordinate2D, days: Int = 1) {
         var components = URLComponents(url: baseURL.appendingPathComponent("/forecast.json"), resolvingAgainstBaseURL: false)
         components?.queryItems = [
@@ -103,6 +144,12 @@ class API {
         guard error == nil else { return delegate?.errorDidOccur(error!) ?? () }
         delegate?.didReturnSearchResults(with: response!)
     }
+    /**
+     Search for a location by zip, coordinates, or city/state
+     
+     - Parameters:
+        - query: The location to search for. Can be a zip, coordinate set, or city/state
+     */
     func search(query: String) {
         var components = URLComponents(url: baseURL.appendingPathComponent("/search.json"), resolvingAgainstBaseURL: false)
         components?.queryItems = [
@@ -136,14 +183,20 @@ class API {
     }
 }
 
+/// The location searched for
 struct Location: Decodable {
     let name: String
     let region: String
     let country: String
+    /// latitude
     let lat: Float
+    /// longitude
     let lon: Float
+    /// The time zone identifier
     let tz_id: String
+    /// The local time from the unix epoch
     let localtime_epoch: UInt64
+    /// The local time as a string
     let localtime: String
 }
 struct CurrentWeather: Decodable {
@@ -151,6 +204,7 @@ struct CurrentWeather: Decodable {
     let last_updated: String
     let temp_c: Float
     let temp_f: Float
+    /// Is day - 0 = night, 1 = day
     let is_day: Int
     let condition: Condition
     let wind_mph: Float
