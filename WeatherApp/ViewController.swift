@@ -19,12 +19,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var lowLabel : UILabel!
     @IBOutlet weak var location : UILabel!
     
+    @IBOutlet weak var epochLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        api.delegate = self
+        api.forecastFor(city: "Truth or Consequences", state: "NM")
         locationManager.delegate = self
-        
+
         locationManager.requestWhenInUseAuthorization()
         
         tempLabel.text = ""
@@ -32,13 +34,24 @@ class ViewController: UIViewController {
         lowLabel.text  = ""
         location.text  = "Loading..."
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        api.delegate = self
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toSearchController", let controller = segue.destination as? SearchTableViewController {
+            controller.api = self.api
+        }
+    }
 }
 
 extension ViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         if manager.authorizationStatus == .authorizedWhenInUse {
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.requestLocation()
+//            locationManager.requestLocation()
         }
     }
     
@@ -55,27 +68,26 @@ extension ViewController: CLLocationManagerDelegate {
 
 extension ViewController: WeatherResponseDelegate {
     func didReturnWeather(with response: WeatherResponse) {}
+    
     func didReturnForecast(with response: ForecastResponse) {
-        tempLabel.text = "\(response.current.temp_f)° F"
-        highLabel.text = "H: \(response.forecast.forecastday.first!.day.maxtemp_f)° F"
-        lowLabel.text  = "L: \(response.forecast.forecastday.first!.day.mintemp_f)° F"
-        location.text  = "\(response.location.name), \(response.location.region)"
+        conditionIcon.image = response.current.conditionImage
         
-        conditionIcon.image = response.current.conditionImage ?? UIImage(systemName: "sun.fill")
+        let tempText = String(format: "%.0f° F", response.current.temp_f)
+        tempLabel.text = tempText
+        
+        let forecast = response.forecast.forecastday[0]
+        
+        highLabel.text = "\(forecast.day.maxtemp_f)° F"
+        lowLabel.text  = "\(forecast.day.mintemp_f)° F"
+        
+        location.text = "\(response.location.name), \(response.location.region)"
+        
+        epochLabel.text = String(format: "%d", forecast.date_epoch)
     }
+    
     func didReturnSearchResults(with response: SearchResults) {}
     
     func errorDidOccur(_ error: Error) {
-        let message: String
-        if let error = error as? WeatherAPIError {
-            message = error.message
-        } else {
-            message = error.localizedDescription
-        }
-        let alert = UIAlertController(title: "An Error Occurred", message: message, preferredStyle: .alert)
-        
-        DispatchQueue.main.async {
-            self.present(alert, animated: true, completion: nil)
-        }
+        print(error)
     }
 }
