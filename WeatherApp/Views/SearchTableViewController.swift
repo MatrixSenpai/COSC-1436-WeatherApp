@@ -49,6 +49,10 @@ class SearchTableViewController: UITableViewController {
         let selectedResult = searchResults[indexPath.row]
         navigationController?.popViewController(animated: true)
         api.forecastFor(location: selectedResult.coordinates)
+        
+        if let storedData = try? JSONEncoder().encode(selectedResult) {
+            UserDefaults.standard.set(storedData, forKey: "DefaultLocation")
+        }
     }
 }
 

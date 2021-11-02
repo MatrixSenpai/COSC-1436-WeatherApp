@@ -11,6 +11,10 @@ import CoreLocation
 class ViewController: UIViewController {
     let api = API()
     let locationManager = CLLocationManager()
+    
+    var defaults: UserDefaults {
+        return UserDefaults.standard
+    }
 
     @IBOutlet weak var conditionIcon: UIImageView!
     
@@ -24,7 +28,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        api.forecastFor(city: "Truth or Consequences", state: "NM")
+        if
+            let defaultLocationStored = defaults.object(forKey: "DefaultLocation") as? Data,
+            let defaultLocation = try? JSONDecoder().decode(SearchCompletion.self, from: defaultLocationStored)
+        {
+            api.forecastFor(location: defaultLocation.coordinates)
+        } else {
+            api.forecastFor(city: "Austin", state: "TX")
+        }
+        
         locationManager.delegate = self
 
         locationManager.requestWhenInUseAuthorization()

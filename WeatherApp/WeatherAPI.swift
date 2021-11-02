@@ -340,7 +340,7 @@ struct ForecastResponse: Decodable {
 }
 
 typealias SearchResults = Array<SearchCompletion>
-struct SearchCompletion: Decodable {
+struct SearchCompletion: Codable {
     let id: Int
     let name: String
     let region: String
