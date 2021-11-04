@@ -9,7 +9,7 @@ import UIKit
 
 class SearchTableViewController: UITableViewController {
     
-    var api: API!
+    let api: API = .shared
     var searchResults: Array<SearchCompletion> = []
     
     var selectedResult: SearchCompletion?
@@ -22,13 +22,9 @@ class SearchTableViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "resultCell")
         navigationItem.titleView = searchBar
         searchBar.delegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         api.delegate = self
     }
-
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

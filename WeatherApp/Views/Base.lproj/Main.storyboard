@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19150" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WO6-SY-3Gg">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WO6-SY-3Gg">
     <device id="retina6_0" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19134"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -18,19 +19,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="75° C" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xTX-Rm-ri9">
-                                <rect key="frame" x="174" y="88" width="200" height="62.333333333333343"/>
+                                <rect key="frame" x="174" y="44" width="200" height="62.333333333333343"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="52"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Truth or Consequences, NM" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hpo-Rr-rgy">
-                                <rect key="frame" x="16" y="245.99999999999997" width="358" height="33.666666666666657"/>
+                                <rect key="frame" x="16" y="202" width="358" height="33.666666666666657"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ibO-XF-3fN">
-                                <rect key="frame" x="174" y="170" width="109.66666666666669" height="68"/>
+                                <rect key="frame" x="174" y="126" width="109.66666666666669" height="68"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="H: 109° C" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="98e-t2-Bcb">
                                         <rect key="frame" x="0.0" y="0.0" width="109.66666666666667" height="30"/>
@@ -47,7 +48,7 @@
                                 </subviews>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rbK-gK-Z7f">
-                                <rect key="frame" x="16" y="88" width="150" height="150"/>
+                                <rect key="frame" x="16" y="44.333333333333329" width="150" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="Bos-F6-WlL"/>
                                     <constraint firstAttribute="height" constant="155" id="IT9-1T-kry"/>
@@ -55,7 +56,7 @@
                                 <imageReference key="image" image="cloud.fill" catalog="system"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vlb-CP-anm">
-                                <rect key="frame" x="16" y="287" width="358" height="20.333333333333314"/>
+                                <rect key="frame" x="16" y="243" width="358" height="20.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -81,11 +82,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="c9I-aF-h00">
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="bDu-DR-dXS">
-                            <connections>
-                                <segue destination="F2L-tf-b8U" kind="show" identifier="toSearchController" id="6wF-iZ-jEW"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="bDu-DR-dXS"/>
                     </navigationItem>
                     <connections>
                         <outlet property="conditionIcon" destination="rbK-gK-Z7f" id="h9v-1o-pIe"/>
@@ -98,7 +95,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1044.6153846153845" y="107.34597156398104"/>
+            <point key="canvasLocation" x="423" y="892"/>
         </scene>
         <!--Search Table View Controller-->
         <scene sceneID="Ufj-Wr-5qF">
@@ -152,16 +149,33 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Gig-AJ-ZjA"/>
+                        <segue destination="iF2-Gq-xtG" kind="relationship" relationship="rootViewController" id="11l-rq-SzO"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="84Y-TN-p9f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="115.38461538461539" y="107.34597156398104"/>
         </scene>
+        <!--Page View Controller-->
+        <scene sceneID="NEX-3n-84K">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="iF2-Gq-xtG" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="UPN-0O-jk4">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="magnifyingglass" catalog="system" id="wIz-E7-VxA">
+                            <connections>
+                                <segue destination="F2L-tf-b8U" kind="show" identifier="toSearchController" id="iLO-FK-KTr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8SQ-FH-Bqc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1008" y="107"/>
+        </scene>
     </scenes>
     <resources>
         <image name="cloud.fill" catalog="system" width="128" height="88"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

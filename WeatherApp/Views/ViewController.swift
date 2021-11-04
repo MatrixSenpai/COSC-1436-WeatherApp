@@ -9,7 +9,7 @@ import UIKit
 import CoreLocation
 
 class ViewController: UIViewController {
-    let api = API()
+    let api: API = .shared
     let locationManager = CLLocationManager()
     
     var defaults: UserDefaults {
@@ -28,6 +28,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        api.delegate = self
+        
         if
             let defaultLocationStored = defaults.object(forKey: "DefaultLocation") as? Data,
             let defaultLocation = try? JSONDecoder().decode(SearchCompletion.self, from: defaultLocationStored)
@@ -38,24 +40,12 @@ class ViewController: UIViewController {
         }
         
         locationManager.delegate = self
-
         locationManager.requestWhenInUseAuthorization()
         
         tempLabel.text = ""
         highLabel.text = ""
         lowLabel.text  = ""
         location.text  = "Loading..."
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        api.delegate = self
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toSearchController", let controller = segue.destination as? SearchTableViewController {
-            controller.api = self.api
-        }
     }
 }
 

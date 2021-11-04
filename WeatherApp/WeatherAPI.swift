@@ -22,6 +22,8 @@ protocol WeatherResponseDelegate {
 }
 
 class API {
+    static let shared: API = API()
+    
     private let baseURL: URL = URL(string: "https://api.weatherapi.com/v1")!
     private let apiKey: String = ProcessInfo.processInfo.environment["API_KEY"]!
     private let session = URLSession.shared
