@@ -40,12 +40,20 @@ class ViewController: UIViewController {
         }
         
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
         
         tempLabel.text = ""
         highLabel.text = ""
         lowLabel.text  = ""
         location.text  = "Loading..."
+    }
+    
+    func receiveLocation(_ location: SearchCompletion) {
+        api.forecastFor(location: location.coordinates)
+    }
+    
+    func useCurrentLocation() {
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
     }
 }
 

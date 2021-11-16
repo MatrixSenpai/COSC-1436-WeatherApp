@@ -13,20 +13,33 @@ class ContainerViewController: UIPageViewController {
     var controllers: [UIViewController] = []
     let pageControl = UIPageControl()
     
+    var defaults: UserDefaults {
+        return .standard
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         delegate = self
         dataSource = self
         
-        for _ in 0...3 {
-            let storyboard = UIStoryboard(name: "Main", bundle: .main)
-            let controller = storyboard.instantiateViewController(withIdentifier: "WeatherView") as! ViewController
-            controllers.append(controller)
+        if
+            let data = defaults.object(forKey: "StoredLocations") as? Data,
+            let locations = try? JSONDecoder().decode(Array<SearchCompletion>.self, from: data)
+        {
+            fill(locations)
+        } else {
+            
         }
         
-        setViewControllers([controllers.first!], direction: .forward, animated: true, completion: nil)
-        
+//        for _ in 0...3 {
+//            let storyboard = UIStoryboard(name: "Main", bundle: .main)
+//            let controller = storyboard.instantiateViewController(withIdentifier: "WeatherView") as! ViewController
+//            controllers.append(controller)
+//        }
+//
+//        setViewControllers([controllers.first!], direction: .forward, animated: true, completion: nil)
+
         self.pageControl.frame = CGRect()
         self.pageControl.currentPageIndicatorTintColor = UIColor.black
         self.pageControl.pageIndicatorTintColor = UIColor.lightGray
@@ -41,7 +54,18 @@ class ContainerViewController: UIPageViewController {
         self.pageControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
     }
     
-    
+    func fill(_ locations: Array<SearchCompletion>) {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        controllers = []
+        
+        for location in locations {
+            let controller = storyboard.instantiateViewController(withIdentifier: "WeatherView")
+            (controller as? ViewController)?.receiveLocation(location)
+            controllers.append(controller)
+        }
+        
+        setViewControllers([controllers.first!], direction: .forward, animated: true, completion: nil)
+    }
 }
 
 extension ContainerViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
