@@ -43,12 +43,30 @@ class SearchTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedResult = searchResults[indexPath.row]
-        navigationController?.popViewController(animated: true)
-        api.forecastFor(location: selectedResult.coordinates)
         
-        if let storedData = try? JSONEncoder().encode(selectedResult) {
-            UserDefaults.standard.set(storedData, forKey: "DefaultLocation")
+        var currentSavedLocations: Array<SearchCompletion>
+        if
+            let defaultsData = UserDefaults.standard.data(forKey: "StoredLocations"),
+            let decodedData = try? JSONDecoder().decode(Array<SearchCompletion>.self, from: defaultsData)
+        {
+            currentSavedLocations = decodedData
+        } else {
+            currentSavedLocations = []
         }
+        
+        currentSavedLocations.append(selectedResult)
+        
+        if let newData = try? JSONEncoder().encode(currentSavedLocations) {
+            UserDefaults.standard.set(newData, forKey: "StoredLocations")
+        }
+        
+        navigationController?.popViewController(animated: true)
+        
+//        api.forecastFor(location: selectedResult.coordinates)
+//
+//        if let storedData = try? JSONEncoder().encode(selectedResult) {
+//            UserDefaults.standard.set(storedData, forKey: "DefaultLocation")
+//        }
     }
 }
 

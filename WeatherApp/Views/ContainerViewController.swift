@@ -23,15 +23,6 @@ class ContainerViewController: UIPageViewController {
         delegate = self
         dataSource = self
         
-        if
-            let data = defaults.object(forKey: "StoredLocations") as? Data,
-            let locations = try? JSONDecoder().decode(Array<SearchCompletion>.self, from: data)
-        {
-            fill(locations)
-        } else {
-            
-        }
-        
 //        for _ in 0...3 {
 //            let storyboard = UIStoryboard(name: "Main", bundle: .main)
 //            let controller = storyboard.instantiateViewController(withIdentifier: "WeatherView") as! ViewController
@@ -52,6 +43,19 @@ class ContainerViewController: UIPageViewController {
         self.pageControl.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -20).isActive = true
         self.pageControl.heightAnchor.constraint(equalToConstant: 20).isActive = true
         self.pageControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if
+            let data = defaults.object(forKey: "StoredLocations") as? Data,
+            let locations = try? JSONDecoder().decode(Array<SearchCompletion>.self, from: data)
+        {
+            fill(locations)
+        } else {
+            
+        }
     }
     
     func fill(_ locations: Array<SearchCompletion>) {

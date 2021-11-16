@@ -12,6 +12,8 @@ class ViewController: UIViewController {
     let api: API = .shared
     let locationManager = CLLocationManager()
     
+    var savedLocation: SearchCompletion?
+    
     var defaults: UserDefaults {
         return UserDefaults.standard
     }
@@ -30,14 +32,14 @@ class ViewController: UIViewController {
         
         api.delegate = self
         
-        if
-            let defaultLocationStored = defaults.object(forKey: "DefaultLocation") as? Data,
-            let defaultLocation = try? JSONDecoder().decode(SearchCompletion.self, from: defaultLocationStored)
-        {
-            api.forecastFor(location: defaultLocation.coordinates)
-        } else {
-            api.forecastFor(city: "Austin", state: "TX")
-        }
+//        if
+//            let defaultLocationStored = defaults.object(forKey: "DefaultLocation") as? Data,
+//            let defaultLocation = try? JSONDecoder().decode(SearchCompletion.self, from: defaultLocationStored)
+//        {
+//            api.forecastFor(location: defaultLocation.coordinates)
+//        } else {
+//            api.forecastFor(city: "Austin", state: "TX")
+//        }
         
         locationManager.delegate = self
         
@@ -47,8 +49,18 @@ class ViewController: UIViewController {
         location.text  = "Loading..."
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        api.delegate = self
+        
+        if let location = savedLocation {
+            api.forecastFor(location: location.coordinates)
+        }
+    }
+    
     func receiveLocation(_ location: SearchCompletion) {
-        api.forecastFor(location: location.coordinates)
+        self.savedLocation = location
     }
     
     func useCurrentLocation() {
