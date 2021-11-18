@@ -23,18 +23,9 @@ class ContainerViewController: UIPageViewController {
         delegate = self
         dataSource = self
         
-//        for _ in 0...3 {
-//            let storyboard = UIStoryboard(name: "Main", bundle: .main)
-//            let controller = storyboard.instantiateViewController(withIdentifier: "WeatherView") as! ViewController
-//            controllers.append(controller)
-//        }
-//
-//        setViewControllers([controllers.first!], direction: .forward, animated: true, completion: nil)
-
         self.pageControl.frame = CGRect()
         self.pageControl.currentPageIndicatorTintColor = UIColor.black
         self.pageControl.pageIndicatorTintColor = UIColor.lightGray
-        self.pageControl.numberOfPages = self.controllers.count
         self.pageControl.currentPage = 0
         self.view.addSubview(self.pageControl)
         
@@ -53,8 +44,9 @@ class ContainerViewController: UIPageViewController {
             let locations = try? JSONDecoder().decode(Array<SearchCompletion>.self, from: data)
         {
             fill(locations)
+            self.pageControl.numberOfPages = self.controllers.count
         } else {
-            
+        
         }
     }
     
