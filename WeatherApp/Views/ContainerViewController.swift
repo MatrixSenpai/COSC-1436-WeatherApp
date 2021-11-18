@@ -44,7 +44,7 @@ class ContainerViewController: UIPageViewController {
             let locations = try? JSONDecoder().decode(Array<SearchCompletion>.self, from: data)
         {
             fill(locations)
-            self.pageControl.numberOfPages = self.controllers.count
+            pageControl.numberOfPages = controllers.count
         } else {
         
         }
@@ -52,7 +52,11 @@ class ContainerViewController: UIPageViewController {
     
     func fill(_ locations: Array<SearchCompletion>) {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        controllers = []
+        
+        let currentLocationController = storyboard.instantiateViewController(withIdentifier: "WeatherView")
+        (currentLocationController as? ViewController)?.useCurrentLocation()
+        
+        controllers = [currentLocationController]
         
         for location in locations {
             let controller = storyboard.instantiateViewController(withIdentifier: "WeatherView")

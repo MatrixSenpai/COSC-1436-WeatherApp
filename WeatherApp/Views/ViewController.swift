@@ -31,16 +31,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         api.delegate = self
-        
-//        if
-//            let defaultLocationStored = defaults.object(forKey: "DefaultLocation") as? Data,
-//            let defaultLocation = try? JSONDecoder().decode(SearchCompletion.self, from: defaultLocationStored)
-//        {
-//            api.forecastFor(location: defaultLocation.coordinates)
-//        } else {
-//            api.forecastFor(city: "Austin", state: "TX")
-//        }
-        
         locationManager.delegate = self
         
         tempLabel.text = ""
@@ -56,6 +46,8 @@ class ViewController: UIViewController {
         
         if let location = savedLocation {
             api.forecastFor(location: location.coordinates)
+        } else {
+            locationManager.requestLocation()
         }
     }
     
@@ -64,6 +56,7 @@ class ViewController: UIViewController {
     }
     
     func useCurrentLocation() {
+        locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
     }
@@ -83,7 +76,7 @@ extension ViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        self.errorDidOccur(error)
+        print(error)
     }
 }
 
