@@ -73,7 +73,6 @@ extension ViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         if manager.authorizationStatus == .authorizedWhenInUse {
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
-//            locationManager.requestLocation()
         }
     }
     
