@@ -130,24 +130,32 @@
                                 </constraints>
                                 <imageReference key="image" image="cloud.fill" catalog="system"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oUl-ei-s1y">
-                                <rect key="frame" x="16" y="243" width="358" height="20.333333333333314"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" indicatorStyle="white" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="034-Ap-IS6">
+                                <rect key="frame" x="16" y="243" width="358" height="136"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="136" id="M9h-3F-bpX"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="2" minimumInteritemSpacing="10" id="p6t-G3-aQK">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="5uj-JI-T6g"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="5uj-JI-T6g" firstAttribute="trailing" secondItem="oUl-ei-s1y" secondAttribute="trailing" constant="16" id="2EV-Vj-8vr"/>
+                            <constraint firstItem="034-Ap-IS6" firstAttribute="top" secondItem="uKT-7c-KTV" secondAttribute="bottom" constant="7.3333333333333428" id="0ik-34-fIL"/>
                             <constraint firstItem="uKT-7c-KTV" firstAttribute="leading" secondItem="5uj-JI-T6g" secondAttribute="leading" constant="16" id="8T8-22-SNy"/>
                             <constraint firstItem="5uj-JI-T6g" firstAttribute="top" secondItem="8AR-It-Lbz" secondAttribute="top" constant="2" id="GjF-Mc-UJd"/>
-                            <constraint firstItem="oUl-ei-s1y" firstAttribute="top" secondItem="uKT-7c-KTV" secondAttribute="bottom" constant="7.3300000000000001" id="Gm7-VB-UCc"/>
                             <constraint firstItem="Fpt-n0-nt7" firstAttribute="leading" secondItem="8AR-It-Lbz" secondAttribute="trailing" constant="8" symbolic="YES" id="HTi-xf-hex"/>
-                            <constraint firstItem="oUl-ei-s1y" firstAttribute="leading" secondItem="5uj-JI-T6g" secondAttribute="leading" constant="16" id="Jw1-La-4vx"/>
+                            <constraint firstItem="034-Ap-IS6" firstAttribute="leading" secondItem="5uj-JI-T6g" secondAttribute="leading" constant="16" id="S1S-rx-i0T"/>
                             <constraint firstItem="Fpt-n0-nt7" firstAttribute="top" secondItem="Wk6-rT-7XK" secondAttribute="bottom" constant="19.666666666666657" id="coz-56-jSY"/>
                             <constraint firstItem="Wk6-rT-7XK" firstAttribute="leading" secondItem="8AR-It-Lbz" secondAttribute="trailing" constant="8" symbolic="YES" id="kKJ-Zo-rBK"/>
+                            <constraint firstItem="5uj-JI-T6g" firstAttribute="trailing" secondItem="034-Ap-IS6" secondAttribute="trailing" constant="16" id="o1s-5B-2Re"/>
                             <constraint firstItem="uKT-7c-KTV" firstAttribute="top" secondItem="5uj-JI-T6g" secondAttribute="top" constant="158" id="oe8-qh-fE4"/>
                             <constraint firstItem="Wk6-rT-7XK" firstAttribute="top" secondItem="5uj-JI-T6g" secondAttribute="top" id="pSe-UN-KzD"/>
                             <constraint firstItem="5uj-JI-T6g" firstAttribute="trailing" secondItem="uKT-7c-KTV" secondAttribute="trailing" constant="16" id="qaC-7d-OBr"/>
@@ -160,8 +168,8 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="Wxo-Ar-2Qj"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="byHourCollection" destination="034-Ap-IS6" id="6Kv-pv-9ew"/>
                         <outlet property="conditionIcon" destination="8AR-It-Lbz" id="JJl-dV-Ydz"/>
-                        <outlet property="epochLabel" destination="oUl-ei-s1y" id="VH0-Ta-qmV"/>
                         <outlet property="highLabel" destination="LUY-pJ-ZwK" id="9yv-I8-x3r"/>
                         <outlet property="location" destination="uKT-7c-KTV" id="czb-QE-prb"/>
                         <outlet property="lowLabel" destination="0GD-3g-lbc" id="iVH-ha-LCp"/>
@@ -170,7 +178,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fRc-jU-WC2" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="423" y="892"/>
+            <point key="canvasLocation" x="421.53846153846155" y="891.46919431279616"/>
         </scene>
     </scenes>
     <resources>

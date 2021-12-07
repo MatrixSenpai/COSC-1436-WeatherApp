@@ -46,7 +46,7 @@ class ContainerViewController: UIPageViewController {
             fill(locations)
             pageControl.numberOfPages = controllers.count
         } else {
-        
+            fill([])
         }
     }
     
